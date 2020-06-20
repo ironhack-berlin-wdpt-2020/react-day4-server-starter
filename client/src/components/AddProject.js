@@ -41,43 +41,6 @@ class AddProject extends Component {
     )
   }
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-  render() {
-    return (
-      <div>
-        <form onSubmit={this.handleFormSubmit}>
-          <label>Title:</label>
-          <input type="text" name="title" value={this.state.title} onChange={e => this.handleChange(e)} />
-          <label>Description:</label>
-          <textarea name="description" value={this.state.description} onChange={e => this.handleChange(e)} />
-
-          <input type="submit" value="Submit" />
-        </form>
-      </div>
-    )
-  }
 }
 
 export default AddProject;
