@@ -21,7 +21,8 @@ class AddProject extends Component {
     const description = this.state.description;
 
     axios.post("/api/projects", { title, description })
-      .then(() => {
+      .then((resp) => {
+        this.props.addNewProject(resp.data)
         this.setState({ title: "", description: "" });
       })
   }
@@ -35,7 +36,7 @@ class AddProject extends Component {
           <label>Description:</label>
           <textarea name="description" value={this.state.description} onChange={this.handleChange} />
 
-          <button type="submit" value="Submit" />
+          <input type="submit" value="Submit" />
         </form>
       </div>
     )

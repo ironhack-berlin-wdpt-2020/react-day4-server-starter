@@ -30,7 +30,7 @@ class App extends React.Component {
         <Route exact path="/login" render={() => <Login updateUser={this.updateUser}></Login>} />
         <Route exact path="/projects" render={() => {
           if (this.state.loggedInUser) {
-            return <ListProjects></ListProjects>
+            return <ListProjects currentUser={this.state.loggedInUser}></ListProjects>
           } else {
             return <Redirect to="/login"></Redirect>
           }

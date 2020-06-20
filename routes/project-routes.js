@@ -22,7 +22,8 @@ router.post('/projects', (req, res, next) => {
   Project.create({
     title: req.body.title,
     description: req.body.description,
-    tasks: []
+    tasks: [],
+    owner: req.user._id
   })
     .then(newProject => {
       res.json(newProject); // { title: '', description: '', _id: '123' }
@@ -61,6 +62,13 @@ router.delete('/projects/:id', (req, res, next) => {
     res.status(400).json({ message: 'Specified id is not valid' });
     return;
   }
+
+  // how to add actual security
+  // Project.findById(req.params.id).then((project) => {
+  //   if (project && project.owner === req.user._id) {
+  //     // now this is actually secure
+  //   }
+  // })
 
   Project.findByIdAndRemove(req.params.id)
     .then(() => {
