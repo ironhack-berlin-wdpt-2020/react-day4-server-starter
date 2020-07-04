@@ -14,6 +14,15 @@ router.get('/projects', (req, res, next) => {
     })
 });
 
+const uploader = require('../configs/cloudinary');
+
+// this route only stores into cloudinary, not our database -> sends imageURL to React
+router.post('/image', uploader.single("imageUrl"), (req, res, next) => {
+
+  // send over the cloudinary URL to React
+  res.json({ image_url: req.file.path })
+})
+
 
 // POST /projects
 // POST route => to create a new project

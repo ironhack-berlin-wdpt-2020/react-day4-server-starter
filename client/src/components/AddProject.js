@@ -5,7 +5,8 @@ class AddProject extends Component {
 
   state = {
     title: '',
-    description: ''
+    description: '',
+    image_url: ''
   }
 
   // you can use for every input field
@@ -27,6 +28,19 @@ class AddProject extends Component {
       })
   }
 
+  handleFileUpload = (e) => {
+
+    const uploadData = new FormData();
+    uploadData.append("imageUrl", e.target.files[0]);
+
+    axios.post('/api/image', uploadData).then((resp) => {
+      this.setState({
+        image_url: resp.data.image_url
+      })
+    })
+
+  }
+
   render() {
     return (
       <div>
@@ -38,6 +52,10 @@ class AddProject extends Component {
 
           <input type="submit" value="Submit" />
         </form>
+
+        <input
+          type="file"
+          onChange={this.handleFileUpload} />
       </div>
     )
   }
