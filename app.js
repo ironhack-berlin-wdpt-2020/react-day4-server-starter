@@ -22,7 +22,7 @@ require('./configs/passport');
 // IF YOU STILL DIDN'T, GO TO 'configs/passport.js' AND UN-COMMENT OUT THE WHOLE FILE
 
 mongoose
-  .connect('mongodb://localhost/project-management-server', { useNewUrlParser: true })
+  .connect(process.env.MONGODB_URI)
   .then(x => {
     console.log(`Connected to Mongo! Database name: "${x.connections[0].name}"`)
   })
@@ -41,18 +41,13 @@ app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({ extended: false }));
 app.use(cookieParser());
 
-// Express View engine setup
-
-app.use(require('node-sass-middleware')({
-  src: path.join(__dirname, 'public'),
-  dest: path.join(__dirname, 'public'),
-  sourceMap: true
-}));
-
 
 app.set('views', path.join(__dirname, 'views'));
 app.set('view engine', 'hbs');
-app.use(express.static(path.join(__dirname, 'public')));
+
+//app.use(express.static(path.join(__dirname, 'public')));
+app.use(express.static(path.join(__dirname, '/client/build')));
+
 app.use(favicon(path.join(__dirname, 'public', 'images', 'favicon.ico')));
 
 // ADD SESSION SETTINGS HERE:
@@ -87,5 +82,9 @@ app.use('/api', require('./routes/project-routes'));
 app.use('/api', require('./routes/task-routes'));
 app.use('/api', require('./routes/auth-routes'));
 
+app.use((req, res, next) => {
+  // If no routes match, send them the React HTML.
+  res.sendFile(__dirname + "/client/build/index.html");
+});
 
 module.exports = app;
